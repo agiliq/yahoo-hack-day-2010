@@ -1,0 +1,8 @@
+{% extends 'flickrpayments/base.html' %}
+
+{% block content %}
+<h1>list </h1>
+{% for obj in object_list %}
+    {{ obj }}, {{ obj.price }}
+{% endfor %}
+{% endblock %}
