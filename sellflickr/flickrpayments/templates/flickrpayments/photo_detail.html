@@ -8,7 +8,9 @@
     <span class="price">{{ object.get_price }} $</span>
     <div class="clear"></div><br/><br/>
     {% for photo in photo_list %}
-        <img src='{{ photo.thumbnail_image }}'  class="image_listsmall" /> 
+        <a href='{% url flickrpayments_photo_detail photo.id %}'>
+            <img src='{{ photo.thumbnail_image }}'  class="image_listsmall" /> 
+        </a>
     {% endfor %}
     
 </div>
