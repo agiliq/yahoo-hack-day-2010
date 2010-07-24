@@ -48,4 +48,5 @@ class FlickrimportedForm(forms.Form):
     
 class DomainNameForm(forms.Form):
     domain_name = forms.CharField(max_length=50,label='Site name',help_text='Point your site to 173.230.152.104')
+    default_price = forms.IntegerField()
     
