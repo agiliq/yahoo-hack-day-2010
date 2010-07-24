@@ -3,6 +3,7 @@ import flickrapi
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from django.core.cache import cache
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.contrib.auth.models import User
@@ -92,19 +93,29 @@ def content(request):
         flickr_photo.secret = photo['secret']
         flickr_photo.server = photo['server']
         flickr_photo.title = photo['title']
-        sizes_json = f.photos_getSizes(photo_id=photo['id'], format="json")
-        parsed_sizes_json = simplejson.loads(sizes_json[14:-1])
-
-        sizes = dict([(el['label'], el) for el in parsed_sizes_json['sizes']['size']])
         
-        try:
-            flickr_photo.square_url = sizes['Square']['source']
-            flickr_photo.thumbnail_url = sizes['Thumbnail']['source']
-            flickr_photo.small_url = sizes['Small']['source']
-            flickr_photo.medium_url = sizes['Medium']['source']
-            flickr_photo.original_url = sizes['Large']['source']
-        except KeyError, e:
-            print "error", e.message
+        #fetching each photo metadata is taking a long time
+        #uncommented for now
+        
+        #sizes_json = f.photos_getSizes(photo_id=photo['id'], format="json")
+        #parsed_sizes_json = simplejson.loads(sizes_json[14:-1])
+
+        #sizes = dict([(el['label'], el) for el in parsed_sizes_json['sizes']['size']])
+        
+        #try:
+            #flickr_photo.square_url = sizes['Square']['source']
+            #flickr_photo.thumbnail_url = sizes['Thumbnail']['source']
+            #flickr_photo.small_url = sizes['Small']['source']
+            #flickr_photo.medium_url = sizes['Medium']['source']
+            #flickr_photo.original_url = sizes['Large']['source']
+        #except KeyError, e:
+        #    print "error", e.message
+        
+        flickr_photo.square_url = ""
+        flickr_photo.thumbnail_url = ""
+        flickr_photo.small_url = ""
+        flickr_photo.medium_url = ""
+        flickr_photo.original_url = ""
         flickr_photo.owner = request.user.flickruser_set.get()
         flickr_photo.farm = photo['farm']
         flickr_photo.save()
