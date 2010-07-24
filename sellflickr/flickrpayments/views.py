@@ -29,19 +29,25 @@ def photo_detail(request, object_id):
     photos = FlickrPhoto.objects.filter(owner__user=get_subdomain_user(request))
     user_paypal = UserPaypal.objects.get(user=get_subdomain_user(request))
     payment_obj = Payment.objects.create(photo=photo)
-    notify_url = request.build_absolute_url(reverse(''))
-    return_url = request.build_absolute_url(reverse('flickrpayments_buy_done')),
-    cancel_return = request.build_absolute_url(reverse('')),
+    notify_url = request.build_absolute_uri(reverse('paypal-ipn'))
+    return_url = request.build_absolute_uri(reverse('flickrpayments_buy_done', args=[object_id]))
+    cancel_return = request.build_absolute_uri(request.get_full_path())
     paypal_dict = {
         "business": user_paypal.email,
         "amount": photo.get_price,
         "item_name": photo.title,
         "invoice": payment_obj.pk,
-        "notify_url": "http://www.example.com/your-ipn-location/",
-        "return_url": "http://www.example.com/your-return-location/",
-        "cancel_return": "http://www.example.com/your-cancel-location/",
+        "notify_url": notify_url,
+        "return_url": return_url,
+        "cancel_return": cancel_return,
     }
-    return object_detail(request, photos, object_id=object_id, template_name='flickrpayments/photo_detail.html', extra_context={'photo_list': photos.order_by('?')[:6]})
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    return object_detail(request, 
+                         photos, 
+                         object_id=object_id, 
+                         template_name='flickrpayments/photo_detail.html', 
+                         extra_context={'photo_list': photos.order_by('?')[:6],
+                                        'form': form})
 
 
 def buy_done(request, object_id):
