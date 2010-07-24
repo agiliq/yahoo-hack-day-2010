@@ -9,6 +9,7 @@ class FlickrUser(models.Model):
 
 class FlickrPhoto(models.Model):
     owner = models.ForeignKey(FlickrUser)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
     
     def get_image_url(self, size):
         return ""
