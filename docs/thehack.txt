@@ -1,0 +1,6 @@
+Overriding idea
+~~~~~~~~~~~~~~~~~~~~~~
+
+A lot of photographers use flickr. They would like to create a site where they can create a portfolio of their flickr photos and set a price on them.
+
+
