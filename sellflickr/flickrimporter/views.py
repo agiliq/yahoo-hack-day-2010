@@ -16,6 +16,11 @@ logging.basicConfig()
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
+flickr = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, 
+                             settings.FLICKR_API_SECRET, 
+                             cache=True)
+flickr.cache = cache
+
 def require_flickr_auth(view):
     '''View decorator, redirects users to Flickr when no valid
     authentication token is available.
@@ -52,24 +57,18 @@ def require_flickr_auth(view):
         log.info('Token is valid')
 
         return view(request, *args, **kwargs)
-            
-
     return protected_view
 
 def flickr_login_start(request):
-    flickr = flickrapi.FlickrAPI(settings.FLICKR_API_KEY,
-               settings.FLICKR_API_SECRET,)
     url = flickr.web_login_url(perms='read')
     return HttpResponseRedirect(url)
 
 def flickr_login_done(request):
     log.info('We got a callback from Flickr, store the token')
-    f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, 
-                            settings.FLICKR_API_SECRET)
     frob = request.GET['frob']
-    token = f.get_token(frob)
+    token = flickr.get_token(frob)
     from django.contrib.auth import authenticate, login
-    user = authenticate(flickr_token = token)
+    user = authenticate(flickr_token=token)
     if user:
         login(request, user)
         return HttpResponseRedirect(reverse("flickr_import"))
@@ -82,10 +81,7 @@ def flickr_login_done(request):
 
 @login_required
 def content(request):
-    f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, 
-                            settings.FLICKR_API_SECRET)
-    
-    result_json = f.photos_search(user_id='me', per_page='500', format='json')
+    result_json = flickr.photos_search(user_id='me', per_page='24', format='json')
     parsed_json = simplejson.loads(result_json[14:-1])
     for photo in parsed_json['photos']['photo']:
         flickr_photo = FlickrPhoto()
@@ -97,7 +93,7 @@ def content(request):
         #fetching each photo metadata is taking a long time
         #uncommented for now
         
-        #sizes_json = f.photos_getSizes(photo_id=photo['id'], format="json")
+        #sizes_json = flickr.photos_getSizes(photo_id=photo['id'], format="json")
         #parsed_sizes_json = simplejson.loads(sizes_json[14:-1])
 
         #sizes = dict([(el['label'], el) for el in parsed_sizes_json['sizes']['size']])
