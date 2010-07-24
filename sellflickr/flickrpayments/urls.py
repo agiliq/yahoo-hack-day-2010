@@ -5,4 +5,5 @@ urlpatterns = patterns('flickrpayments.views',
     url('^list/$', 'photo_list', name='flickrpayments_photo_list'),
     url('^detail/(?P<object_id>\d+)/$', 'photo_detail', name='flickrpayments_photo_detail'),
     url('^buy/(?P<object_id>)/$', 'buy_photo', name='flickrpayments_photo_buy'),
+    url('^buy/done/(?P<object_id>)/$', 'buy_done', name='flickrpayments_buy_done'),
 )
