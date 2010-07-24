@@ -92,7 +92,7 @@ def content(request):
         flickr_photo.secret = photo['secret']
         flickr_photo.server = photo['server']
         flickr_photo.title = photo['title']
-        sizes_json = f.photos_getSizes(photo_id=photo['id'])
+        sizes_json = f.photos_getSizes(photo_id=photo['id'], format="json")
         parsed_sizes_json = simplejson.loads(sizes_json[14:-1])
         flickr_photo.square_url = parsed_sizes_json['sizes']['size'][0]['source']
         flickr_photo.thumbnail_url = parsed_sizes_json['sizes']['size'][1]['source']
