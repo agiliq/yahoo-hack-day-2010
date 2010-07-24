@@ -85,7 +85,8 @@ INSTALLED_APPS = (
     'flickrimporter',
     'flickrpayments',
     'subdomains',
-    'subdomain_admin'
+    'subdomain_admin',
+    'grappelli'
 )
 
 FLICKR_API_KEY = '5d6a5b3bd885f0f2eb8cf61b329aae66'

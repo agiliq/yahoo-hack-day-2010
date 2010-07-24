@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     
     (r'^flickr/', include('flickrimporter.urls')),
+    (r'^grappelli/', include('grappelli.urls')),
     url(r'', include('subdomain_admin.urls')),
-    (r'^', include('flickrpayments.urls')),
+    (r'', include('flickrpayments.urls')),
 )
