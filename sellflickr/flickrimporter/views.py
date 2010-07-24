@@ -103,7 +103,7 @@ def content(request):
             flickr_photo.small_url = sizes['Small']['source']
             flickr_photo.medium_url = sizes['Medium']['source']
             flickr_photo.original_url = sizes['Large']['source']
-        except KeyError as e:
+        except KeyError, e:
             print "error", e.message
         flickr_photo.owner = request.user.flickruser_set.get()
         flickr_photo.farm = photo['farm']
