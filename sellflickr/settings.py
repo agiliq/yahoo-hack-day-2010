@@ -53,6 +53,9 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+AUTHENTICATION_BACKENDS  = ('django.contrib.auth.backends.ModelBackend',
+                            'flickrimporter.backends.FlickrBackend',)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -100,5 +103,7 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+LOGIN_URL = "/flickr/login/start/"
 
 from localsettings import *
