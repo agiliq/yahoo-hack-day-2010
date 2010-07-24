@@ -8,11 +8,13 @@ class FlickrUser(models.Model):
     user = models.ForeignKey(User)
 
 class FlickrPhoto(models.Model):
-    owner = models.ForeignKey(FlickrUser)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
+    flickr_id = models.CharField(max_length=15)
+    owner = models.CharField(max_length=15)
+    price = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     server = models.IntegerField()
     secret = models.CharField(max_length=50)
     title = models.CharField(max_length=255)
+    farm = models.IntegerField()
     
     class Admin:
         list_display = ('title',)
