@@ -2,9 +2,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from subdomains.models import Subdomain
 # Create your models here.
 
 class FlickrUser(models.Model):
+    nsid = models.CharField(max_length=15)
     user = models.ForeignKey(User)
     token = models.CharField(max_length=100, unique=True)
 
@@ -16,6 +18,7 @@ class FlickrPhoto(models.Model):
     secret = models.CharField(max_length=50)
     title = models.CharField(max_length=255)
     farm = models.IntegerField()
+    subdomain = models.ForeignKey(Subdomain)
     
     class Admin:
         list_display = ('title',)
