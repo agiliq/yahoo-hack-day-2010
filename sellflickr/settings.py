@@ -93,6 +93,7 @@ INSTALLED_APPS = (
     'grappelli',
     'sampleblog',
     'paypal.standard.ipn',
+    'sitewide',
 )
 
 DATABASES = {
