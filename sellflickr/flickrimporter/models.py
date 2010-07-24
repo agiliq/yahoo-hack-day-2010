@@ -10,7 +10,9 @@ class FlickrUser(models.Model):
     nsid = models.CharField(max_length=15)
     user = models.ForeignKey(User)
     token = models.CharField(max_length=100, unique=True)
-
+    subdomain = models.ForeignKey(Subdomain)
+            
+    
 class FlickrPhoto(models.Model):
     flickr_id = models.CharField(max_length=15)
     owner = models.ForeignKey(FlickrUser)

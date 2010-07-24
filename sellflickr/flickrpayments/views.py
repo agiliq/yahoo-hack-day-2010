@@ -79,3 +79,18 @@ def set_price(request):
     return render_to_response('flickrpayments/set_price.html', 
                               {'form': form},
                               context_instance=RequestContext(request))
+
+from django.shortcuts import redirect
+
+@login_required
+def my_site(request):
+    subdomain = request.user.flickruser_set.get().subdomain
+    return redirect(subdomain)
+
+@login_required
+def my_config(request):
+    subdomain = request.user.flickruser_set.get().subdomain
+    from debug import idebug
+    idebug()
+    return redirect(subdomain.get_config_url())
+    

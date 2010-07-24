@@ -51,7 +51,7 @@ class Subdomain(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
         
-    user = models.ForeignKey(User, null=True, blank=True)
+    user = models.ForeignKey(User)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     
@@ -77,5 +77,8 @@ class Subdomain(models.Model):
         return self._settings_cache
     
     def __unicode__(self):
-        return self.name
+        return self.subdomain_text
+    
+    def get_config_url(self):
+        return "%s/admin/flickrimporter/flickrphoto/"%self.get_absolute_url()
 

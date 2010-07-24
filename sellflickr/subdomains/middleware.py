@@ -8,47 +8,37 @@ from subdomains.conf import settings as subdomain_settings
 import urlparse
 
 from subdomains.models import Subdomain
+from django.contrib.sites.models import Site
+from django.conf import settings
+
+import urlparse
+
+from subdomains.models import Subdomain
 
 class GetSubdomainMiddleware:
     
     def process_request(self, request):
-        bits = urlparse.urlparse(request.build_absolute_uri()).hostname.split('.')
-        
-        if len(bits) > 2:
+        hname = urlparse.urlparse(request.build_absolute_uri()).hostname
+        bits = hname.split('.')
+        if len(bits) == 3:
             request.subdomain_text = bits[0]
-        else:
-            request.subdomain_text = None
-        
-        if subdomain_settings.BASE_DOMAIN == '.'.join(bits):
-            # main site
-            return None
-            
-        probable_domain =  '.'.join(bits[1:])
-        current_site = Site.objects.get_current()
-        
-        if subdomain_settings.BASE_DOMAIN == probable_domain:
-            #User is using a subdomain.
-            # request.subdomain = None
-            request.mainsite = True
             try:
                 subdomain = Subdomain.objects.get(subdomain_text = request.subdomain_text)
-                request.subdomain = subdomain
+                request.mainsite = False
+                print subdomain
             except Subdomain.DoesNotExist:
-                request.subdomain = None
-            return None
+                subdomain = None
+                request.mainsite = False
+                print 'Invalid Subdomain'
+            request.subdomain = subdomain
         else:
-            #User is using a Custom Domain
-            request.mainsite = False
-            try:
-                domain = urlparse.urlsplit(request.build_absolute_uri()).hostname
-                request.subdomain_text = domain
-                subdomain = Subdomain.objects.get(domain = domain)
-                request.subdomain = subdomain
-            except Subdomain.DoesNotExist:
-                request.subdomain = None
-            return None
-          
-
+            raise
+            #subdomain = None
+            #request.mainsite = True
+            #print 'Ah, sizeof url is bigger than expected'
+        #request.subdomain = subdomain
+        #print 'Subdomain %s'%subdomain
+        
 class RedirectOnInvalidSubdomain(object):
     "This middleware *must be After* the GetSubdomainMiddleware, as it expects subdomain to be set up"
     def process_request(self, request):

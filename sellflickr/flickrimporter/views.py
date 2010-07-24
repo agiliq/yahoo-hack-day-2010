@@ -113,6 +113,7 @@ def content(request):
         flickr_photo.medium_url = ""
         flickr_photo.original_url = ""
         flickr_photo.owner = request.user.flickruser_set.get()
+        flickr_photo.subdomain = flickr_photo.owner.subdomain
         flickr_photo.farm = photo['farm']
         flickr_photo.save()
 

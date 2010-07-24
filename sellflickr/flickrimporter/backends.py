@@ -4,7 +4,8 @@ import simplejson
 from django.conf import settings
 
 from flickrimporter.models import FlickrUser
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
+from subdomains.models import Subdomain
 
 class FlickrBackend(object):
     def authenticate(self, flickr_token):
@@ -23,8 +24,15 @@ class FlickrBackend(object):
                 return None
             username = parsed_token_reponse['auth']['user']['username']
             nsid = parsed_token_reponse['auth']['user']['nsid']
-            user = User.objects.create(username = username)
-            FlickrUser.objects.create(user=user, token = flickr_token, nsid=nsid)
+            user = User.objects.get_or_create(username = username)[0]
+            user.is_staff = True
+            group = Group.objects.get(name='SubUser')
+            user.groups.add(group)
+            user.save()
+            subdomain = Subdomain.objects.get_or_create(subdomain_text=user.username,
+                                                        description='Flickr photos of %s for display and sale'%user.username,user=user)[0]
+
+            FlickrUser.objects.create(user=user, token = flickr_token, nsid=nsid, subdomain=subdomain)
             return user
     
     def get_user(self, user_id):
