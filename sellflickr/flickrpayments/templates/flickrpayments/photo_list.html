@@ -3,6 +3,9 @@
 {% block content %}
 <h1>list </h1>
 {% for obj in object_list %}
-    {{ obj }}, {{ obj.price }}
+    <a href='{% url flickrpayments_photo_detail obj.id %}'>
+    <img src='{{ obj.small_image }}' />, 
+    </a>
+    {{ obj.price }}
 {% endfor %}
 {% endblock %}
