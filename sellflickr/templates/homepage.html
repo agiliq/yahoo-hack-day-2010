@@ -1,11 +1,25 @@
-{% extends "base.html" %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>:: Flickr ecommerce ::</title>
+<link href="{{MEDIA_URL}}css/styles.css" rel="stylesheet" type="text/css" />
+</head>
 
-{% block content %}
-    <div id="header"><a href="."><img src="{{MEDIA_URL}}images/logo.gif" width="332" height="38" alt="Flickr Commerce" /></a></div>
+<body>
+<div id="multicolorbg"></div>
+<div id="base_container" >
+	<div id="header"><a href="{{MEDIA_URL}}index.html"><img src="{{MEDIA_URL}}images/logo.gif" width="332" height="38" alt="Flickr Commerce" /></a></div>
     <div id="banner">
     	<div class="left"><img src="{{MEDIA_URL}}images/whyflickr_commerce.png" width="517" height="146" alt="Why Flickr Commerce" /></div>
-        <div class="right"><a href="{% url flickrimporter_index_start %}"><img src="{{MEDIA_URL}}images/login_but.png" width="324" height="115" alt="Login" /></a></div>
+        <div class="right"><a href="#"><img src="{{MEDIA_URL}}images/login_but.png" width="324" height="115" alt="Login" /></a></div>
     
   </div>
   <div id="content"></div>
-{% endblock %}
+</div>
+<div id="footer">Copyright © 2010 Flickr ecommerce. All rights reserved.
+
+</div>
+</body>
+</html>
+
