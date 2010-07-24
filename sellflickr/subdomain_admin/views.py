@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response,redirect
 from django.template import RequestContext
 from django.contrib.auth import login,authenticate
 
-from subdomain_admin.forms import SubdomainUserForm
+from subdomain_admin.forms import SubdomainUserForm, FlickrimportedForm
 
 def create_subdomain(request):
     form = SubdomainUserForm(request.POST or None)
@@ -19,3 +19,15 @@ def create_subdomain(request):
                               {'form':form},
                               RequestContext(request))
 
+def flickr_authenticated(request):
+    form = FlickrimportedForm(request.POST or None)
+    if form.is_valid():
+        username, token = form.save()
+        user = authenticate(username=username,password=password)
+        login(request,user)
+        request.user.message_set.create(message='You have successfully registered %s'%subdomain.get_absolute_url())
+        return redirect("%s/"%(subdomain.get_absolute_url()))
+    
+    return render_to_response('subdomain_admin/createsite.html',
+                              {'form':form},
+                              RequestContext(request))
