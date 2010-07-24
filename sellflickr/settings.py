@@ -91,6 +91,7 @@ INSTALLED_APPS = (
     'subdomains',
     'subdomain_admin',
     'grappelli',
+    'sampleblog'
 )
 
 DATABASES = {
