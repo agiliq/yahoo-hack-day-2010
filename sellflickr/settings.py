@@ -82,10 +82,11 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    'south',
     'flickrimporter',
     'flickrpayments',
     'subdomains',
-    'subdomain_admin'
+    'subdomain_admin',
 )
 
 FLICKR_API_KEY = '5d6a5b3bd885f0f2eb8cf61b329aae66'
