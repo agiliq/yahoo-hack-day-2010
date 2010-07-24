@@ -91,7 +91,8 @@ INSTALLED_APPS = (
     'subdomains',
     'subdomain_admin',
     'grappelli',
-    'sampleblog'
+    'sampleblog',
+    'paypal.standard.ipn',
 )
 
 DATABASES = {
@@ -116,6 +117,7 @@ ADMIN_MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'admin-media/')
 MEDIA_URL = '/media/'
 ADMIN_MEDIA_PREFIX = '/admin-media/'
 
+PAYPAL_RECEIVER_EMAIL = ""
 
 try:
     from localsettings import *

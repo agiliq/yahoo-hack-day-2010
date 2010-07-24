@@ -86,9 +86,6 @@ def content(request):
     
     result_json = f.photos_search(user_id='me', per_page='500', format='json')
     parsed_json = simplejson.loads(result_json[14:-1])
-    print parsed_json
-    import ipdb
-    ipdb.set_trace()
     for photo in parsed_json['photos']['photo']:
         flickr_photo = FlickrPhoto()
         flickr_photo.flickr_id = photo['id']
