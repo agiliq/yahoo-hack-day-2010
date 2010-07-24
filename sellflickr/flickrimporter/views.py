@@ -71,7 +71,7 @@ def flickr_login_done(request):
     user = authenticate(flickr_token = token)
     if user:
         login(request, user)
-        return HttpResponseRedirect(reverse("flickrimporter_index"))
+        return HttpResponseRedirect(reverse("flickr_import"))
     else:
         #Not a valid user
         #Todo do something better.

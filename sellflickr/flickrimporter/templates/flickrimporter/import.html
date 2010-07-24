@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.get("/flickr/", function(){
+                window.location.replace("/list/");
+            });
+        });
+    </script>
+
+    <img src="{{ MEDIA_URL }}images/ajax-loader.gif" alt="loading..." />
+    <br />
+    Just a second. We are fetching your flickr photos.
+{% endblock %}
