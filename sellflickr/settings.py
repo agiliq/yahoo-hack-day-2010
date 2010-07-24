@@ -53,6 +53,9 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+AUTHENTICATION_BACKENDS  = ('django.contrib.auth.backends.ModelBackend',
+                            'flickrimporter.backends.FlickrBackend',)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -102,6 +105,8 @@ DATABASES = {
 }
 
 import os
+
+LOGIN_URL = "/flickr/login/start/"
 
 PROJECT_ROOT = os.path.dirname(__file__)
 
