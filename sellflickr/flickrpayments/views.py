@@ -90,7 +90,5 @@ def my_site(request):
 @login_required
 def my_config(request):
     subdomain = request.user.flickruser_set.get().subdomain
-    from debug import idebug
-    idebug()
     return redirect(subdomain.get_config_url())
     
