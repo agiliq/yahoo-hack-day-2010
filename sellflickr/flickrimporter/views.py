@@ -94,11 +94,17 @@ def content(request):
         flickr_photo.title = photo['title']
         sizes_json = f.photos_getSizes(photo_id=photo['id'], format="json")
         parsed_sizes_json = simplejson.loads(sizes_json[14:-1])
-        flickr_photo.square_url = parsed_sizes_json['sizes']['size'][0]['source']
-        flickr_photo.thumbnail_url = parsed_sizes_json['sizes']['size'][1]['source']
-        flickr_photo.small_url = parsed_sizes_json['sizes']['size'][2]['source']
-        flickr_photo.medium_url = parsed_sizes_json['sizes']['size'][3]['source']
-        flickr_photo.original_url = parsed_sizes_json['sizes']['size'][4]['source']
+
+        sizes = dict([(el['label'], el) for el in parsed_sizes_json['sizes']['size']])
+        
+        try:
+            flickr_photo.square_url = sizes['Square']['source']
+            flickr_photo.thumbnail_url = sizes['Thumbnail']['source']
+            flickr_photo.small_url = sizes['Small']['source']
+            flickr_photo.medium_url = sizes['Medium']['source']
+            flickr_photo.original_url = sizes['Large']['source']
+        except KeyError as e:
+            print "error", e.message
         flickr_photo.owner = request.user.flickruser_set.get()
         flickr_photo.farm = photo['farm']
         flickr_photo.save()
