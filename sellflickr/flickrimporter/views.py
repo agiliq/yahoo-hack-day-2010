@@ -59,9 +59,12 @@ def callback(request):
     frob = request.GET['frob']
     token = f.get_token(frob)
     request.session['token'] = token
-
-    return reverse("flickrimporter_index")
+    return HttpResponseRedirect(reverse("flickrimporter_index"))
 
 @require_flickr_auth
 def content(request):
+    f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY,
+           settings.FLICKR_API_SECRET, store_token=False)
+    
+    photos = f.photos_search(user_id='me', per_page='500', format='json')
     return HttpResponse('Welcome, oh authenticated user!')

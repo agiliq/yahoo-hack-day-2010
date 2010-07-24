@@ -10,6 +10,45 @@ class FlickrUser(models.Model):
 class FlickrPhoto(models.Model):
     owner = models.ForeignKey(FlickrUser)
     price = models.DecimalField(max_digits=8, decimal_places=2)
+    server = models.IntegerField()
+    secret = models.CharField(maxlength=50)
+    title = models.CharField(max_length=255)
     
-    def get_image_url(self, size):
-        return ""
+    class Admin:
+        list_display = ('title',)
+
+    def __str__(self):
+        return self.title
+        
+    def get_absolute_url(self):
+        return "/photos/%s/" % (self.id)
+
+    def get_image_url(self, size='small'):
+        # small_square=75x75
+        # thumb=100 on longest side
+        # small=240 on longest side
+        # medium=500 on longest side
+        # large=1024 on longest side
+        # original=duh
+    
+        base_url = "http://static.flickr.com"
+        size_char='s'  # default to small_square
+        
+        if size == 'small_square':
+            size_char='_s'
+        elif size == 'thumb':
+            size_char='_t'
+        elif size == 'small':
+            size_char='_m'
+        elif size == 'medium':
+            size_char=''
+        elif size == 'large':
+            size_char='_b'
+        elif size == 'original':
+            size_char='_o'
+        
+        return "%s/%s/%s_%s%s.jpg" % (base_url, 
+                                      self.flickr_server, 
+                                      self.flickr_id, 
+                                      self.flickr_secret, 
+                                      size_char)
