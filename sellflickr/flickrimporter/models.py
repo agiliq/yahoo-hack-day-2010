@@ -91,8 +91,9 @@ class FlickrPhoto(models.Model):
         return self.price or 10
 
     def show_thumbnail(self):
-        #return mark_safe('<img src="%s"/>'%'http://eventbrite-s3.s3.amazonaws.com/eventlogos/1934679/ohindia2010logoforweb.jpg')
         return mark_safe('<img src="%s"/>'%(self.thumbnail_image,))
-        #return mark_safe('<img src= />')
     show_thumbnail.allow_tags = True
     
+def set_price_of_all(modeladmin, request, queryset):
+    queryset.update(price=10)
+    make_author_abcd.short_description='Sets the price of all selected to the one configured'
