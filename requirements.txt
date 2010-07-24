@@ -1,1 +1,2 @@
 flickrpy
+django-subdomains
