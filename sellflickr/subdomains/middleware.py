@@ -20,7 +20,7 @@ class GetSubdomainMiddleware:
     def process_request(self, request):
         hname = urlparse.urlparse(request.build_absolute_uri()).hostname
         bits = hname.split('.')
-        if len(bits) == 3:
+        if len(bits) == 3 and bits[2]=='flickrcommerce':
             request.subdomain_text = bits[0]
             try:
                 subdomain = Subdomain.objects.get(subdomain_text = request.subdomain_text)
@@ -31,14 +31,15 @@ class GetSubdomainMiddleware:
                 request.mainsite = False
                 print 'Invalid Subdomain'
             request.subdomain = subdomain
-        else:
-            raise
-            #subdomain = None
-            #request.mainsite = True
+        elif hname == settings.BASE_SITE:
+            subdomain = 'www'
+            request.mainsite = True
             #print 'Ah, sizeof url is bigger than expected'
-        #request.subdomain = subdomain
-        #print 'Subdomain %s'%subdomain
-        
+        else:
+            #TODO
+            #Custom Url
+            pass
+            
 class RedirectOnInvalidSubdomain(object):
     "This middleware *must be After* the GetSubdomainMiddleware, as it expects subdomain to be set up"
     def process_request(self, request):

@@ -15,8 +15,8 @@ from flickrpayments.models import Payment, UserPaypal
 from flickrpayments.forms import FlickrPaymentForm
 
 def photo_list(request):
-    # photos = FlickrPhoto.objects.filter(owner__user=request.subdomain.user)
-    photos = FlickrPhoto.objects.filter(owner__user=request.user)
+    photos = FlickrPhoto.objects.filter(owner__user=request.subdomain.user)
+    #photos = FlickrPhoto.objects.filter(owner__user=request.user)
     return object_list(request, photos, template_name='flickrpayments/photo_list.html')
 
 def get_subdomain_user(request):
