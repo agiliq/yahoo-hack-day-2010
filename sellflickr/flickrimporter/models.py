@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class FlickrUser(models.Model):
-    user = models.ForeignKey(User, related_name='flickr_profiles')
+    user = models.ForeignKey(User)
 
 class FlickrPhoto(models.Model):
     owner = models.ForeignKey(FlickrUser)
