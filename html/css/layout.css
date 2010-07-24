@@ -1,0 +1,13 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{background:url(../images/background.gif) repeat-x;  }
+#multicolorbg{width:100%; background:url(../images/bg.gif) repeat-x; height:12px;}
+#base_container{width:960px; margin:0px auto; }
+#header{width:960px; margin:0px auto; height:80px; padding-top:20px; }
+#banner{width:960px; margin:0px auto; height:210px; padding-top:80px; }
+#banner .left{width:560px; float:left; }
+#banner .right{width:400px; float:right; text-align:right;  }
+#base_container{width:960px; margin:0px auto;}
+#content{height:350px;}
+#footer{ background-color:#000; font:11px Tahoma, Geneva, sans-serif; color:#FFF; line-height:52px; text-align:center;}
