@@ -32,35 +32,20 @@ class SubdomainUserForm(UserCreationForm):
         # auto_create_menus(subdomain,user)
         return username, password, subdomain
     
-#    
-#def autopopulate_data():
-#    from simplecms.cms.models import Menu, Article, Category
-#    menus = Menu.objects.filter(subdomain=None)
-#    for el in menus:
-#        Menu.objects.create(subdomain=subdomain,name=el.name)
-#    try:
-#        cats = Category.objects.filter(subdomain=None)
-#        for cat in cats:
-#            Category.objects.create(title=cat.title,menu=Menu.objects.get(name))
-#        
-#        articles = Article.objects.filter(subdomain=None)
-#        for ar in articles:
-#            pass
-#    except:
-#        pass
-#
-#    
-#def auto_create_menus(subdomain,user):
-#    from simplecms.cms.models import Menu, Article, Category
-#    menus = Menu.objects.filter(subdomain=None)
-#    menu_objects = []
-#    for el in menus:
-#        menu_objects.append(Menu.objects.create(subdomain=subdomain,name=el.name))
-#    scat = Category(menu=menu_objects[0], title='Sample Category', subdomain=subdomain,
-#                    slug='sample-category',path='sample',short_title='Sample')
-#    scat.save()
-#    from django.contrib.auth.models import User
-#    a = Article(author=user, path='home', slug='main', subdomain=subdomain, text='This is an empty sample article. Please edit or change this in the erp',
-#                title='Home Page',category=scat)
-#    a.save()
-#    
+class FlickrimportedForm(forms.Form):
+    subdomain = forms.CharField(max_length=50,label='Site name',help_text='.flickrcommerce.com')
+    
+    def clean_subdomain(self):
+        sd = self.cleaned_data['subdomain']
+        if subdomain_value=='www':
+            raise forms.ValidationError('This subdomain cannot be registered')
+        try:
+            Subdomain.objects.get(subdomain_text=subdomain_value)
+        except Subdomain.DoesNotExist:
+            return sd
+        raise forms.ValidationError('This subdomain is already registered')
+
+    
+class DomainNameForm(forms.Form):
+    domain_name = forms.CharField(max_length=50,label='Site name',help_text='Point your site to 173.230.152.104')
+    
