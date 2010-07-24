@@ -79,3 +79,6 @@ class FlickrPhoto(models.Model):
     @property
     def get_price(self):
         return self.price or 10
+    
+    def show_thumbnail(self):
+        return '<img src="%s" />'%self.thumbnail_image()
