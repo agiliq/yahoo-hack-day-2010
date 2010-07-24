@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class FlickrUser(models.Model):
-    flickr_nsid = models.CharField(max_length=15)
     user = models.ForeignKey(User)
     token = models.CharField(max_length=100, unique=True)
 
@@ -52,9 +51,9 @@ class FlickrPhoto(models.Model):
             size_char='_o'
         
         return "%s/%s/%s_%s%s.jpg" % (base_url, 
-                                      self.flickr_server, 
+                                      self.server, 
                                       self.flickr_id, 
-                                      self.flickr_secret, 
+                                      self.secret, 
                                       size_char)
     
     def get_thumbnail(self):

@@ -5,8 +5,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
-
-from models import FlickrPhoto
+from django.contrib.auth.models import User
+from models import FlickrPhoto, FlickrUser
 
 import simplejson
 import logging
@@ -92,7 +92,8 @@ def content(request):
         flickr_photo.secret = photo['secret']
         flickr_photo.server = photo['server']
         flickr_photo.title = photo['title']
-        flickr_photo.owner = photo['owner']
+        #stub
+        flickr_photo.owner = request.user.flickruser_set.get()
         flickr_photo.farm = photo['farm']
         flickr_photo.save()
         
