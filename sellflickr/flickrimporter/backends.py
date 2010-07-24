@@ -1,4 +1,5 @@
 import flickrapi
+import simplejson
 
 from django.conf import settings
 
@@ -16,13 +17,14 @@ class FlickrBackend(object):
                settings.FLICKR_API_SECRET, token=flickr_token,
                store_token=False)
             try:
-                flickr.auth_checkToken()
+                token_response = flickr.auth_checkToken(format="json")
+                parsed_token_reponse = simplejson.loads(token_response[14:-1])
             except flickrapi.FlickrError:
                 return None
-            #Todo get username etc
-            username = User.objects.count() + 1
+            username = parsed_token_reponse['auth']['user']['username']
+            nsid = parsed_token_reponse['auth']['user']['nsid']
             user = User.objects.create(username = username)
-            FlickrUser.objects.create(user=user, token = flickr_token)
+            FlickrUser.objects.create(user=user, token = flickr_token, nsid=nsid)
             return user
     
     def get_user(self, user_id):
