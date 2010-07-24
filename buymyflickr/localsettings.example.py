@@ -11,3 +11,11 @@ DATABASES = {
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = ''
+
+
+FLICKR_KEY = ""
+FLICKR_SECRET = ""
+
+PAYPAL_KEY = ""
+PAYPAL_SECRET = ""
+
