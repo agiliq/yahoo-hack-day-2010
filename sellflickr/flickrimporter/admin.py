@@ -5,7 +5,7 @@ from flickrimporter.models import FlickrPhoto, FlickrUser
 class FlickrPhotoAdmin(SubdomainAdmin):
     list_filter = ('price',)
     list_editable = ('price',)
-    list_display = ('get_thumbnail','title')
+    list_display = ('show_thumbnail','title','price')
     search_fields = ['title',]
 
 

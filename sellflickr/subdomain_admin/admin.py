@@ -27,7 +27,7 @@ def get_queryset(request,qs):
     display those for the currently signed in user.
     """
     #Super user going to asimpleerp.com/admin displays all entries
-    if request.mainsite and request.user.is_superuser:
+    if request.user.is_superuser:
         return qs
     #Super user or subdomain user going to their subdomain shows their entries
     elif request.subdomain and (request.user.is_superuser or request.subdomain.user == request.user):

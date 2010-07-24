@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.html import mark_safe
 
 from subdomains.models import Subdomain
 # Create your models here.
@@ -82,6 +83,10 @@ class FlickrPhoto(models.Model):
     @property
     def get_price(self):
         return self.price or 10
-    
+
     def show_thumbnail(self):
-        return '<img src="%s" />'%self.thumbnail_image()
+        #return mark_safe('<img src="%s"/>'%'http://eventbrite-s3.s3.amazonaws.com/eventlogos/1934679/ohindia2010logoforweb.jpg')
+        return mark_safe('<img src="%s"/>'%(self.thumbnail_image,))
+        #return mark_safe('<img src= />')
+    show_thumbnail.allow_tags = True
+    
