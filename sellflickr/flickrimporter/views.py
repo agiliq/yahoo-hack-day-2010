@@ -4,7 +4,11 @@ from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render_to_response
 
+from models import FlickrPhoto
+
+import simplejson
 import logging
 logging.basicConfig()
 
@@ -59,9 +63,8 @@ def flickr_login_start(request):
 
 def flickr_login_done(request):
     log.info('We got a callback from Flickr, store the token')
-
-    f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY,
-           settings.FLICKR_API_SECRET, store_token=False)
+    f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, 
+                            settings.FLICKR_API_SECRET)
     frob = request.GET['frob']
     token = f.get_token(frob)
     from django.contrib.auth import authenticate, login
@@ -78,8 +81,20 @@ def flickr_login_done(request):
 
 @login_required
 def content(request):
-    f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY,
-           settings.FLICKR_API_SECRET, store_token=False)
+    f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, 
+                            settings.FLICKR_API_SECRET)
     
-    photos = f.photos_search(user_id='me', per_page='500', format='json')
-    return HttpResponse('Welcome, oh authenticated user!')
+    result_json = f.photos_search(user_id='me', per_page='500', format='json')
+    parsed_json = simplejson.loads(result_json[14:-1])
+    for photo in parsed_json['photos']['photo']:
+        flickr_photo = FlickrPhoto()
+        flickr_photo.flickr_id = photo['id']
+        flickr_photo.secret = photo['secret']
+        flickr_photo.server = photo['server']
+        flickr_photo.title = photo['title']
+        flickr_photo.owner = photo['owner']
+        flickr_photo.farm = photo['farm']
+        flickr_photo.save()
+        
+    var = {'total': parsed_json['photos']['total']}
+    return render_to_response('flickrimporter/index.html', var)
