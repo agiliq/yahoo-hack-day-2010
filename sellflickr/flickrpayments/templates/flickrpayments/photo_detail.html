@@ -1,7 +1,14 @@
-{% extends 'flickrpayments/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 <h1>detail</h1>
-    {{ object }}, {{ object.price }}
-{% endfor %}
+    <img src='{{ object.medium_image }}' />, 
+    {{ object.get_price }}
+    
+    {% for photo in photo_list %}
+        <img src='{{ photo.thumbnail_image }}' />, 
+    {% endfor %}
+    
+    <a href=''>Buy Now</a>
+    
 {% endblock %}

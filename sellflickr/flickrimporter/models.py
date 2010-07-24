@@ -34,7 +34,7 @@ class FlickrPhoto(models.Model):
         # large=1024 on longest side
         # original=duh
     
-        base_url = "http://static.flickr.com"
+        base_url = "http://farm%s.static.flickr.com"
         size_char='s'  # default to small_square
         
         if size == 'small_square':
@@ -50,11 +50,32 @@ class FlickrPhoto(models.Model):
         elif size == 'original':
             size_char='_o'
         
-        return "%s/%s/%s_%s%s.jpg" % (base_url, 
+        return "%s/%s/%s_%s%s.jpg" % (base_url % (self.farm), 
                                       self.server, 
                                       self.flickr_id, 
                                       self.secret, 
                                       size_char)
     
-    def get_thumbnail(self):
-        return self.get_image_url(size=thumb)
+    @property
+    def thumbnail_image(self):
+        return self.get_image_url(size='thumb')
+    
+    @property
+    def small_image(self):
+        return self.get_image_url('small')
+    
+    @property
+    def medium_image(self):
+        return self.get_image_url('medium')
+    
+    @property
+    def large_image(self):
+        return self.get_image_url('large')
+    
+    @property
+    def orig_image(self):
+        return self.get_image_url('original')
+    
+    @property
+    def get_price(self):
+        return self.price or 10

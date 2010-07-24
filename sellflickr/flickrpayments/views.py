@@ -16,8 +16,8 @@ def photo_list(request):
 
 def photo_detail(request, object_id):
     # photos = get_object_or_404(FlickrPhoto, pk=object_id, owner__user=request.subdomain.user)
-    photos = get_object_or_404(FlickrPhoto, pk=object_id, owner__user=request.user)
-    return object_list(request, photos, template_name='flickrpayments/photo_detail.html')
+    photos = FlickrPhoto.objects.filter(owner__user=request.user)
+    return object_detail(request, photos, object_id=object_id, template_name='flickrpayments/photo_detail.html', extra_context={'photo_list': photos.order_by('?')[:6]})
 
 
 def buy_photo(request, object_id):
