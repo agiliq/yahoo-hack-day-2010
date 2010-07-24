@@ -76,4 +76,12 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    #Third party apps
+    #'south',
+    #Our apps
+    'flickrimporter',
+    'flickrpayments',
+    
 )
+
+from localsettings import *
