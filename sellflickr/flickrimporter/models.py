@@ -5,12 +5,13 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class FlickrUser(models.Model):
+    flickr_nsid = models.CharField(max_length=15)
     user = models.ForeignKey(User)
-    token = models.CharField(max_length = 100, unique = True)
+    token = models.CharField(max_length=100, unique=True)
 
 class FlickrPhoto(models.Model):
     flickr_id = models.CharField(max_length=15)
-    owner = models.CharField(max_length=15)
+    owner = models.ForeignKey(FlickrUser)
     price = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
     server = models.IntegerField()
     secret = models.CharField(max_length=50)
