@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 class FlickrUser(models.Model):
     user = models.ForeignKey(User)
+    token = models.CharField(max_length = 100, unique = True)
 
 class FlickrPhoto(models.Model):
     flickr_id = models.CharField(max_length=15)

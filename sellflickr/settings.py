@@ -82,14 +82,13 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    'south',
     'flickrimporter',
     'flickrpayments',
     'subdomains',
-    'subdomain_admin'
+    'subdomain_admin',
+    'grappelli',
 )
-
-FLICKR_API_KEY = '5d6a5b3bd885f0f2eb8cf61b329aae66'
-FLICKR_API_SECRET = '21756438a51481d4'
 
 DATABASES = {
     'default': {
@@ -101,3 +100,5 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+from localsettings import *
