@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
-
+html{height:101%;}
 body{background:url(../images/background.gif) repeat-x;  }
 #multicolorbg{width:100%; background:url(../images/bg.gif) repeat-x; height:12px;}
 #base_container{width:960px; margin:0px auto; }
@@ -9,14 +9,31 @@ body{background:url(../images/background.gif) repeat-x;  }
 #banner .left{width:560px; float:left; }
 #banner .right{width:400px; float:right; text-align:right;  }
 #base_container{width:960px; margin:0px auto;}
-#content{height:350px;}
-#footer{ background-color:#000; font:11px Tahoma, Geneva, sans-serif; color:#FFF; line-height:52px; text-align:center;}
+#content{ min-height:300px;}
+#footer{ background-color:#000; font:11px Tahoma, Geneva, sans-serif; color:#FFF; line-height:52px; text-align:center; height:100px;s}
 
-#user_page{width:960px; background-color:#FFF;}
+#user_page{width:940px; background-color:#FFF; padding:20px;}
 
-#user_page .thumbnails{width:600px; float:left;}
-#user_page .paypal{width:600px; float:left;}
+.thumbnails{ text-align:left; padding-left:10px;}
+.thumbnails_detail{width:600px; float:left;}
+.paypal{width:300px; float:right; padding-top:150px;}
 
-.image_list{width:150px; height:150px; border:5px solid #CCC;}
-.image_list:hover{width:150px; height:150px; border:5px solid #333;}
 
+.image_list{width:140px; height:140px; border:5px solid #CCC; }
+.image_list:hover{width:140px; height:140px; border:5px solid #333;}
+
+.image_listsmall{width:70px; height:70px; border:5px solid #CCC; margin-left:3px; }
+.image_listsmall:hover{width:70px; height:70px; border:5px solid #333;  margin-left:3px;}
+
+
+
+.clear{clear:both;}
+
+
+h1{font:bold 18px Helvetica, Arial, sans-serif; color:#000000; text-decoration:none; line-height:30px; text-transform:uppercase; vertical-align:middle; letter-spacing:-1px;}
+h2{font:bold 16px Helvetica, Arial, sans-serif; color:#000000; text-decoration:none; line-height:30px; text-transform:uppercase; vertical-align:middle; letter-spacing:-1px;}
+h3{font:bold 14px Arial, Helvetica, sans-serif; color:#6A9318; text-decoration:none; line-height:30px; text-transform:uppercase; border-top:1px solid #CCC; border-bottom:1px solid #CCC;}
+
+
+.price{ background-color:#DEEBF2; padding:10px; font:bold 14px Arial, Helvetica, sans-serif; width:500px; display:block;}
+.detailimage{ background-color:#DEEBF2; padding:10px; width:500px; display:block; text-align:center;}
