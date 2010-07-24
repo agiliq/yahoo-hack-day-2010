@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     (r'^grappelli/', include('grappelli.urls')),
     url(r'', include('subdomain_admin.urls')),
     (r'', include('flickrpayments.urls')),
-    url(r'', direct_to_template,{'template':'homepage.html'},name='homepage'),
+    url(r'home/', direct_to_template,{'template':'homepage.html'},name='homepage'),
 )
 
 #For static and media files
