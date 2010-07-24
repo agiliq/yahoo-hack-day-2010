@@ -1,14 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>detail</h1>
-    <img src='{{ object.medium_image }}' />, 
-    {{ object.get_price }}
-    
+<div class="thumbnails_detail">
+
+<h1>photo detail</h1>
+    <img src='{{ object.medium_image }}' class="detailimage" />
+    <span class="price">{{ object.get_price }} $</span>
+    <div class="clear"></div><br/><br/>
     {% for photo in photo_list %}
-        <img src='{{ photo.thumbnail_image }}' />, 
+        <img src='{{ photo.thumbnail_image }}'  class="image_listsmall" /> 
     {% endfor %}
     
-    {{ form.render }}
-    
+</div>
+<div class="paypal">    
+{{ form.render }}
+</div>
+<div class="clear"></div>
 {% endblock %}

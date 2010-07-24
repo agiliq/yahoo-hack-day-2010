@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<h1>list </h1>
+{% block content %}<br/>
+<div class="thumbnails">
+
 {% for obj in object_list %}
     <a href='{% url flickrpayments_photo_detail obj.id %}'>
-    <img src='{{ obj.small_image }}' />, 
+   <img src='{{ obj.small_image }}' class="image_list"  />
     </a>
-    {{ obj.price }}
 {% endfor %}
+</div>
+
+<div class="clear"></div>
 {% endblock %}
