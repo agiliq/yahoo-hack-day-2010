@@ -14,7 +14,7 @@ class SubdomainUserForm(UserCreationForm):
             Subdomain.objects.get(subdomain_text=subdomain_value)
         except Subdomain.DoesNotExist:
             return self.cleaned_data
-        raise forms.ValidationError('This subdomain cannot be registered')
+        raise forms.ValidationError('This subdomain is already registered')
     
     def save(self,**kwargs):
         user = super(SubdomainUserForm,self).save(**kwargs)

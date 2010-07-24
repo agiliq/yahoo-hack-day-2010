@@ -61,13 +61,19 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'sellflickr.urls'
+ROOT_URLCONF = 'urls'
+
+import os
+this_dir = os.path.dirname('__file__')
 
 TEMPLATE_DIRS = (
+    os.path.join(this_dir,'templates')
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
+
+BASE_SITE = 'flickrcommerce.com'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -77,7 +83,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'flickrimporter',
-    'flickrpayments'
+    'flickrpayments',
+    'subdomains',
+    'subdomain_admin'
 )
 
 FLICKR_API_KEY = '5d6a5b3bd885f0f2eb8cf61b329aae66'
