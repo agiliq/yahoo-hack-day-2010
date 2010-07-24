@@ -92,10 +92,16 @@ def content(request):
         flickr_photo.secret = photo['secret']
         flickr_photo.server = photo['server']
         flickr_photo.title = photo['title']
-        #stub
+        sizes_json = f.photos_getSizes(photo_id=photo['id'])
+        parsed_sizes_json = simplejson.loads(sizes_json[14:-1])
+        flickr_photo.square_url = parsed_sizes_json['sizes']['size'][0]['source']
+        flickr_photo.thumbnail_url = parsed_sizes_json['sizes']['size'][1]['source']
+        flickr_photo.small_url = parsed_sizes_json['sizes']['size'][2]['source']
+        flickr_photo.medium_url = parsed_sizes_json['sizes']['size'][3]['source']
+        flickr_photo.original_url = parsed_sizes_json['sizes']['size'][4]['source']
         flickr_photo.owner = request.user.flickruser_set.get()
         flickr_photo.farm = photo['farm']
         flickr_photo.save()
-        
+
     var = {'total': parsed_json['photos']['total']}
     return render_to_response('flickrimporter/index.html', var)

@@ -20,6 +20,12 @@ class FlickrPhoto(models.Model):
     farm = models.IntegerField()
     subdomain = models.ForeignKey(Subdomain)
     
+    square_url = models.URLField()
+    thumbnail_url = models.URLField()
+    small_url = models.URLField() 
+    medium_url = models.URLField()
+    original_url = models.URLField()
+    
     class Admin:
         list_display = ('title',)
 
