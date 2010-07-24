@@ -11,7 +11,7 @@ class FlickrPhoto(models.Model):
     owner = models.ForeignKey(FlickrUser)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     server = models.IntegerField()
-    secret = models.CharField(maxlength=50)
+    secret = models.CharField(max_length=50)
     title = models.CharField(max_length=255)
     
     class Admin:
