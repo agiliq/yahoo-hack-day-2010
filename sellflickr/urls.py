@@ -13,4 +13,5 @@ urlpatterns = patterns('',
 
     
     url(r'^flickr/', include('flickrimporter.urls')),
+    url(r'', include('subdomain_admin.urls')),
 )
