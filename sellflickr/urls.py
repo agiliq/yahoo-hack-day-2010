@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     (r'^flickr/', include('flickrimporter.urls')),
     (r'^grappelli/', include('grappelli.urls')),
     url(r'', include('subdomain_admin.urls')),
+    url(r'', include('sitewide.urls')),
     (r'', include('flickrpayments.urls')),
     url(r'home/', direct_to_template,{'template':'homepage.html'},name='homepage'),
 )
