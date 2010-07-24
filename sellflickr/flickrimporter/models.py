@@ -56,3 +56,6 @@ class FlickrPhoto(models.Model):
                                       self.flickr_id, 
                                       self.flickr_secret, 
                                       size_char)
+    
+    def get_thumbnail(self):
+        return self.get_image_url(size=thumb)

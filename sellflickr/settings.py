@@ -43,7 +43,7 @@ MEDIA_URL = ''
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '/admin_media/'
 
 
 # List of callables that know how to import templates from various sources.
@@ -52,6 +52,9 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
 )
+
+AUTHENTICATION_BACKENDS  = ('django.contrib.auth.backends.ModelBackend',
+                            'flickrimporter.backends.FlickrBackend',)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -101,4 +104,19 @@ DATABASES = {
     }
 }
 
-from localsettings import *
+import os
+
+LOGIN_URL = "/flickr/login/start/"
+
+PROJECT_ROOT = os.path.dirname(__file__)
+
+MEDIA_ROOT =  os.path.join(PROJECT_ROOT, 'media/')
+ADMIN_MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'admin-media/')
+MEDIA_URL = '/media/'
+ADMIN_MEDIA_PREFIX = '/admin-media/'
+
+
+try:
+    from localsettings import *
+except:
+    print "No local settings"
