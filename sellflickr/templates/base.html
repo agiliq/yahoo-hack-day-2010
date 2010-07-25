@@ -9,9 +9,13 @@
 <body>
 <div id="multicolorbg"></div>
 <div id="base_container" >
-<div id="header">Ashok</div>
-<a href="/mysite/" />My Site</a>
-<a href="/myconfig/" />Configure My Site</a>
+<div id="header">flickr commerce
+
+{% if user.is_authenticated %}
+    <a href="/mysite/" class='linkstyle' />My Site</a>
+    <a href="/myconfig/" class='linkstyle' />Configure My Site</a>
+{% endif %}
+</div>
 <div id="user_page">
     {% block content %}
     {% endblock %}

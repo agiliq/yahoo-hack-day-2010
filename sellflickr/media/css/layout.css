@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 html{height:101%;}
-body{background:url(../images/background.gif) repeat-x;  }
+body{background:url(../images/background.gif) repeat-x; font:11px Tahoma, Geneva, sans-serif; color:#000;}
 #multicolorbg{width:100%; background:url(../images/bg.gif) repeat-x; height:12px;}
 #base_container{width:960px; margin:0px auto; }
 #header{width:960px; margin:0px auto; height:80px; padding-top:20px; font:bold 24px Helvetica, Arial, sans-serif; color:#FFF;  }
@@ -37,3 +37,15 @@ h3{font:bold 14px Arial, Helvetica, sans-serif; color:#6A9318; text-decoration:n
 
 .price{ background-color:#DEEBF2; padding:10px; font:bold 14px Arial, Helvetica, sans-serif; width:500px; display:block;}
 .detailimage{ background-color:#DEEBF2; padding:10px; width:500px; display:block; text-align:center;}
+
+
+.linkstyle{font:bold 14px Helvetica, Arial, sans-serif; color:#ffffff; text-decoration:none; line-height:30px; text-transform:uppercase; vertical-align:middle; letter-spacing:-1px; text-decoration:underline;float:right;padding-left: 10px;padding-top: 30px;}
+.linkstyle:hover{font:bold 14px Helvetica, Arial, sans-serif; color:#C90; text-decoration:none; line-height:30px; text-transform:uppercase; vertical-align:middle; letter-spacing:-1px; text-decoration:underline;}
+
+.loglink{font:bold 18px Helvetica, Arial, sans-serif; color:#ffffff; text-decoration:none; line-height:30px;vertical-align:middle; letter-spacing:-1px; text-decoration:underline;padding-left: 10px;padding-top: 30px;}
+.loglink:hover{font:bold 18px Helvetica, Arial, sans-serif; color:#C90; text-decoration:none; line-height:30px;vertical-align:middle; letter-spacing:-1px; text-decoration:underline;}
+
+.configure{width:300px; float:right; display:block;}
+.logo{width:660px; float:left;display:block;}
+
+

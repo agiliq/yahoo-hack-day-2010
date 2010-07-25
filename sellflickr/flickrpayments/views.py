@@ -36,31 +36,41 @@ def get_subdomain_user(request):
 def photo_detail(request, object_id):
     photo = get_object_or_404(FlickrPhoto, pk=object_id, owner__user=get_subdomain_user(request))
     photos = FlickrPhoto.objects.filter(owner__user=get_subdomain_user(request))
-    user_paypal = UserPaypal.objects.get(user=get_subdomain_user(request))
-    payment_obj = Payment.objects.create(photo=photo)
-    # request.session['payment_obj'] = payment_obj
-    notify_url = request.build_absolute_uri(reverse('paypal-ipn'))
-    return_url = request.build_absolute_uri(reverse('flickrpayments_buy_done', args=[object_id]))
-    cancel_return = request.build_absolute_uri(request.get_full_path())
-    paypal_dict = {
-        "business": user_paypal.email,
-        "amount": photo.get_price,
-        "item_name": 'payment for photo %s with invoice %s' % (photo.title, payment_obj.pk),
-        "invoice": payment_obj.pk,
-        "notify_url": notify_url,
-        "return_url": return_url,
-        "cancel_return": cancel_return,
-    }
-    print paypal_dict
+    try:
+        user_paypal = UserPaypal.objects.get(user=get_subdomain_user(request))
+    except UserPaypal.DoesNotExist:
+        user_paypal = None
+    
     is_debug = settings.DEBUG
-    form = PayPalPaymentsForm(initial=paypal_dict)
+    extra_context = {'photo_list': photos.order_by('?')[:6],
+                     'is_debug': is_debug}
+    if user_paypal:
+        payment_obj = Payment.objects.create(photo=photo, amount=photo.get_price)
+        # request.session['payment_obj'] = payment_obj
+        notify_url = request.build_absolute_uri(reverse('paypal-ipn'))
+        return_url = request.build_absolute_uri(reverse('flickrpayments_buy_done', args=[object_id]))
+        cancel_return = request.build_absolute_uri(request.get_full_path())
+        paypal_dict = {
+            "business": user_paypal.email,
+            "amount": photo.get_price,
+            "item_name": 'payment for photo %s with invoice %s' % (photo.title, payment_obj.pk),
+            "invoice": payment_obj.pk,
+            "notify_url": notify_url,
+            "return_url": return_url,
+            "cancel_return": cancel_return,
+        }
+        print paypal_dict
+        form = PayPalPaymentsForm(initial=paypal_dict)
+        extra_context['has_paypal'] = True
+        extra_context['form'] = form
+        extra_context['is_debug'] = is_debug
+    else:
+        extra_context['has_paypal'] = False
     return object_detail(request, 
                          photos, 
                          object_id=object_id, 
                          template_name='flickrpayments/photo_detail.html', 
-                         extra_context={'photo_list': photos.order_by('?')[:6],
-                                        'form': form,
-                                        'is_debug': is_debug})
+                         extra_context=extra_context)
 
 @csrf_exempt
 def buy_done(request, object_id):
@@ -72,8 +82,8 @@ def buy_done(request, object_id):
                               context_instance=RequestContext(request))
 
 
-def buy_photo(request, object_id):
-    photos = get_object_or_404(FlickrPhoto, pk=object_id, owner__user=request.user)
+# def buy_photo(request, object_id):
+#     photos = get_object_or_404(FlickrPhoto, pk=object_id, owner__user=request.user)
 
 
 @require_POST
