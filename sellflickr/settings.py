@@ -82,6 +82,10 @@ BASE_SITE = 'flickrcommerce.com'
 MAIN_SITE = 'www.flickrcommerce.com'
 REDIRECT_SITE = MAIN_SITE
 
+PAYPAL_API_USER = "probiz_1273571007_biz_api1.uswaretech.com"
+PAYPAL_API_KEY = "LJKRH4CWWE6JTNSN"
+PAYPAL_API_SIG = "ADZb7XvwG3K4qw8AuQOMhbhAZ-6HACL1wp2xcDPWwMcjXnxuQVPhrCGy"
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
