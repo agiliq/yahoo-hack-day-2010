@@ -40,6 +40,31 @@ class GetSubdomainMiddleware:
             #Custom Url
             pass
             
+from django.http import HttpResponseRedirect
+
+class GetSubdomainMiddleware:
+    
+    def process_request(self, request):
+        hname = urlparse.urlparse(request.build_absolute_uri()).hostname
+        bits = hname.split('.')
+        if len(bits) == 3 and ".".join(bits[1:])==settings.BASE_SITE:
+            if bits[0] != 'www':
+                try:
+                    request.subdomain = Subdomain.objects.get(subdomain_text = bits[0])
+                    request.mainsite = False
+                    return
+                except Subdomain.DoesNotExist:
+                    pass
+            else:
+                request.mainsite=True
+                request.subdomain=None
+                return
+        else:
+            #TODO Custom url
+            pass
+            
+        return HttpResponseRedirect("http://%s/"%settings.REDIRECT_SITE)
+                
 class RedirectOnInvalidSubdomain(object):
     "This middleware *must be After* the GetSubdomainMiddleware, as it expects subdomain to be set up"
     def process_request(self, request):

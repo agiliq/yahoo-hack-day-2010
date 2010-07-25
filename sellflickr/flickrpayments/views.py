@@ -13,10 +13,13 @@ from paypal.standard.forms import PayPalPaymentsForm
 from flickrimporter.models import FlickrPhoto
 from flickrpayments.models import Payment, UserPaypal
 from flickrpayments.forms import FlickrPaymentForm
+from django.views.generic.simple import direct_to_template
 
 def photo_list(request):
-    photos = FlickrPhoto.objects.filter(owner__user=request.subdomain.user)
-    #photos = FlickrPhoto.objects.filter(owner__user=request.user)
+    if request.mainsite:
+        return direct_to_template(request,template='homepage.html')
+    elif request.subdomain:
+        photos = FlickrPhoto.objects.filter(owner__user=request.subdomain.user)
     return object_list(request, photos, template_name='flickrpayments/photo_list.html')
 
 def get_subdomain_user(request):

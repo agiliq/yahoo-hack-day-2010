@@ -77,7 +77,10 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+#Please override this in local settings for everything to work properly
 BASE_SITE = 'flickrcommerce.com'
+MAIN_SITE = 'www.flickrcommerce.com'
+REDIRECT_SITE = MAIN_SITE
 
 INSTALLED_APPS = (
     'django.contrib.auth',
