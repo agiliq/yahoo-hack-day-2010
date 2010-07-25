@@ -5,7 +5,7 @@
 
 <h1>photo detail</h1>
     <img src='{{ object.medium_image }}' class="detailimage" />
-    <span class="price">{{ object.get_price }} $</span>
+    <span class="price">Price: {{ object.get_price }} $</span>
     <div class="clear"></div><br/><br/>
     {% for photo in photo_list %}
         <a href='{% url flickrpayments_photo_detail photo.id %}'>
