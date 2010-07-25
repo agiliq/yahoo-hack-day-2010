@@ -177,7 +177,7 @@ def my_site(request):
 
 @login_required
 def my_config(request):
-    owner = request.subdomain.user.flickruser_set.all()[0]
+    owner = request.user.flickruser_set.all()[0]
     subdomain = owner.subdomain
     return redirect(subdomain.get_config_url())
     
