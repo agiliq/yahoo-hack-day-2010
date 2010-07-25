@@ -7,7 +7,11 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.views.generic.list_detail import object_detail, object_list
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+from django.views.decorators.http import require_POST
 
+from paypal.standard.ipn.forms import PayPalIPNForm
+from paypal.standard.ipn.models import PayPalIPN
 from paypal.standard.forms import PayPalPaymentsForm
 
 from flickrimporter.models import FlickrPhoto
@@ -34,6 +38,7 @@ def photo_detail(request, object_id):
     photos = FlickrPhoto.objects.filter(owner__user=get_subdomain_user(request))
     user_paypal = UserPaypal.objects.get(user=get_subdomain_user(request))
     payment_obj = Payment.objects.create(photo=photo)
+    # request.session['payment_obj'] = payment_obj
     notify_url = request.build_absolute_uri(reverse('paypal-ipn'))
     return_url = request.build_absolute_uri(reverse('flickrpayments_buy_done', args=[object_id]))
     cancel_return = request.build_absolute_uri(request.get_full_path())
@@ -69,7 +74,57 @@ def buy_done(request, object_id):
 
 def buy_photo(request, object_id):
     photos = get_object_or_404(FlickrPhoto, pk=object_id, owner__user=request.user)
+
+
+@require_POST
+def ipn(request, item_check_callable=None):
+    """
+    PayPal IPN endpoint (notify_url).
+    Used by both PayPal Payments Pro and Payments Standard to confirm transactions.
+    http://tinyurl.com/d9vu9d
     
+    PayPal IPN Simulator:
+    https://developer.paypal.com/cgi-bin/devscr?cmd=_ipn-link-session
+    """
+    # from the paypal invoice get
+    # payment obj (inovice number == payment obj pk)
+    # get the buyer email
+
+    # save the amount and paypal_txn_key to 
+    # payment object and activate the 
+    # payment obj
+    
+    # from payment obj get photo
+    # mail the photo originla url to buyer
+    
+    flag = None
+    ipn_obj = None
+    form = PayPalIPNForm(request.POST)
+    if form.is_valid():
+        try:
+            ipn_obj = form.save(commit=False)
+        except Exception, e:
+            flag = "Exception while processing. (%s)" % e
+    else:
+        flag = "Invalid form. (%s)" % form.errors
+
+    if ipn_obj is None:
+        ipn_obj = PayPalIPN()    
+
+    ipn_obj.initialize(request)
+
+    if flag is not None:
+        ipn_obj.set_flag(flag)
+    else:
+        # Secrets should only be used over SSL.
+        if request.is_secure() and 'secret' in request.GET:
+            ipn_obj.verify_secret(form, request.GET['secret'])
+        else:
+            ipn_obj.verify(item_check_callable)
+
+    ipn_obj.save()
+    return HttpResponse("OKAY")
+
 
 @login_required
 def set_price(request):

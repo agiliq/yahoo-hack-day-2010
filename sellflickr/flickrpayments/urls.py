@@ -11,5 +11,6 @@ urlpatterns = patterns('flickrpayments.views',
 )
 
 urlpatterns += patterns('',
-    url('^ipn/', include('paypal.standard.ipn.urls')),
+    # url('^ipn/', include('paypal.standard.ipn.urls')),
+    url('^ipn/$', 'ipn', name="paypal-ipn"),
 )
