@@ -2,5 +2,4 @@
 *.tmp
 *.log
 *.pyc
-localsettings.py
 *.kpf
