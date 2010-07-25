@@ -14,13 +14,19 @@
     {% endfor %}
     
 </div>
-<div class="paypal">    
-    {% if is_debug %}
-        {{ form.sandbox }}
-    {% else %}
-        {{ form }}
-    {% endif %}
-</div>
+{% if has_paypal %}
+    <div class="paypal">    
+        {% if is_debug %}
+            {{ form.sandbox }}
+        {% else %}
+            {{ form }}
+        {% endif %}
+    </div>
+{% else %}
+    <p>User does not provided paypal details</p>
+{% endif %}
+
+
 <div class="clear"></div>
     
 {% endblock %}
