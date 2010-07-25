@@ -19,7 +19,7 @@
         {% if is_debug %}
             {% url flickrpayments_photo_buy_paypal photo.pk %}
         {% else %}
-            {{ form }}
+            {{ form.render }}
         {% endif %}
     </div>
 {% else %}
