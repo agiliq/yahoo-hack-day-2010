@@ -12,6 +12,7 @@
 <div id="header">flickr commerce
 
 {% if user.is_authenticated %}
+	<a href="{% url auth_logout %}?next=/" class='linkstyle'/>Logout</a>
     <a href="/mysite/" class='linkstyle' />My Site</a>
     <a href="/myconfig/" class='linkstyle' />Configure My Site</a>
 {% endif %}
