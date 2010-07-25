@@ -9,12 +9,16 @@
 <body>
 <div id="multicolorbg"></div>
 <div id="base_container" >
-	<div id="header"><a href="{{MEDIA_URL}}index.html"><img src="{{MEDIA_URL}}images/logo.gif" width="332" height="38" alt="Flickr Commerce" /></a></div>
+	<div id="header">
+	  <a href="/">
+		<img src="{{MEDIA_URL}}images/logo.gif" width="332" height="38" alt="Flickr Commerce" />
+	  </a>
+	  {% if user.is_authenticated %}
+    	<a href="/mysite/" class='linkstyle'/>My Site</a>
+		<a href="/myconfig/" class='linkstyle' />Configure My Site</a>
+	  {% endif %}
+	</div>
     <div id="banner">
-		{% if user.is_authenticated %}
-    	<a href="/mysite/" class='loglink'/>My Site</a>
-		<a href="/myconfig/" class='loglink' />Configure My Site</a>
-		{% endif %}
 	<div class="left"><img src="{{MEDIA_URL}}images/whyflickr_commerce.png" width="517" height="146" alt="Why Flickr Commerce" /></div>
 		{% if not user.is_authenticated %}
         <div class="right"><a href="{% url flickrimporter_index_start %}"><img src="{{MEDIA_URL}}images/login_but.png" width="324" height="115" alt="Login" /></a></div>
@@ -23,7 +27,9 @@
   </div>
   <div id="content">
 	<br/> <br/> 
+	<br/> <br/> 
 	<img src='{{ MEDIA_URL}}images/illustration.gif' /> 
+	<br/> <br/> 
 	<br/> <br/> 
   </div>
 </div>

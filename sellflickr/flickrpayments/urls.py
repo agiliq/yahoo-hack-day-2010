@@ -13,9 +13,10 @@ urlpatterns = patterns('flickrpayments.views',
         {'template': "flickrpayments/paypal_config_done.html"},
         name='flickrpayments_paypal_config_done'),
     url('^$', 'photo_list', name='flickrpayments_photo_list'),
+    url('^ipn/$', 'ipn', name="paypal-ipn"),
 )
 
 urlpatterns += patterns('',
     # url('^ipn/', include('paypal.standard.ipn.urls')),
-    url('^ipn/$', 'ipn', name="paypal-ipn"),
+    # url('^ipn/$', 'ipn', name="paypal-ipn"),
 )
