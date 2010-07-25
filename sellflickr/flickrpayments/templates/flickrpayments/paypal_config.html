@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<h3>
+Please set your paypal address.
+
+</h3>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" name="paypal" value="Set your paypal address" />
+
+</form>
+
+{% endblock %}
