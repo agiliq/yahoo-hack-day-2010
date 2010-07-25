@@ -17,7 +17,7 @@
 {% if has_paypal %}
     <div class="paypal">    
         {% if is_debug %}
-            {{ form.sandbox }}
+            {% url flickrpayments_photo_buy_paypal photo.pk %}
         {% else %}
             {{ form }}
         {% endif %}

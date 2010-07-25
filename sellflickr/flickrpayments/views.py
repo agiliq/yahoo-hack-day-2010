@@ -153,6 +153,30 @@ def ipn(request, item_check_callable=None):
 
     ipn_obj.save()
     return HttpResponse("OKAY")
+    try:
+        user_paypal = UserPaypal.objects.get(user=get_subdomain_user(request))
+    except UserPaypal.DoesNotExist:
+        user_paypal = None
+    
+    is_debug = settings.DEBUG
+    extra_context = {'photo_list': photos.order_by('?')[:6],
+                     'is_debug': is_debug}
+    if user_paypal:
+        payment_obj = Payment.objects.create(photo=photo, amount=photo.get_price)
+        # request.session['payment_obj'] = payment_obj
+        notify_url = request.build_absolute_uri(reverse('paypal-ipn'))
+        return_url = request.build_absolute_uri(reverse('flickrpayments_buy_done', args=[object_id]))
+        cancel_return = request.build_absolute_uri(request.get_full_path())
+        paypal_dict = {
+            "business": user_paypal.email,
+            "amount": photo.get_price,
+            "item_name": 'payment for photo %s with invoice %s' % (photo.title, payment_obj.pk),
+            "invoice": payment_obj.pk,
+            "notify_url": notify_url,
+            "return_url": return_url,
+            "cancel_return": cancel_return,
+        }
+
 
 
 @login_required
@@ -180,6 +204,36 @@ def my_config(request):
     owner = request.subdomain.user.flickruser_set.all()[0]
     subdomain = owner.subdomain
     return redirect(subdomain.get_config_url())
+    
+@login_required
+def buy_photo_paypal(request, object_id):
+    photo = get_object_or_404(Photo, pk = object_id)
+    try:
+        user_paypal = UserPaypal.objects.get(user=get_subdomain_user(request))
+    except UserPaypal.DoesNotExist:
+        user_paypal = None
+    
+    is_debug = settings.DEBUG
+    extra_context = {'photo_list': photos.order_by('?')[:6],
+                     'is_debug': is_debug}
+    if user_paypal:
+        payment_obj = Payment.objects.create(photo=photo, amount=photo.get_price)
+        # request.session['payment_obj'] = payment_obj
+        notify_url = request.build_absolute_uri(reverse('paypal-ipn'))
+        return_url = request.build_absolute_uri(reverse('flickrpayments_buy_done', args=[object_id]))
+        cancel_return = request.build_absolute_uri(request.get_full_path())
+        paypal_dict = {
+            "receiverList": [{"email":user_paypal.email,
+            "amount": photo.get_price}],
+            "returnUrl": return_url,
+            "cancelUrl": cancel_return,
+            
+        }
+        from adaptive import get_adaptive_payment_url
+        url = get_adaptive_payment_url(**paypal_dict)
+        
+        
+
     
 @login_required
 def paypal_config(request):

@@ -1,6 +1,5 @@
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
-from django.contrib.auth.views import logout
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -19,7 +18,6 @@ urlpatterns = patterns('',
     url(r'', include('sitewide.urls')),
     (r'', include('flickrpayments.urls')),
     url(r'home/', direct_to_template,{'template':'homepage.html'},name='homepage'),
-    url(r'logout/$', logout, name='auth_logout'),
 )
 
 #For static and media files
