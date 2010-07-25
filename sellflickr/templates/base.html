@@ -9,12 +9,16 @@
 <body>
 <div id="multicolorbg"></div>
 <div id="base_container" >
-<div id="header">flickr commerce
+<div id="header">
+	  <a href="/">
+		<img src="{{MEDIA_URL}}images/logo.gif" width="332" height="38" alt="Flickr Commerce" />
+	  </a>
 
 {% if user.is_authenticated %}
 	<a href="{% url auth_logout %}?next=/" class='linkstyle'/>Logout</a>
     <a href="/mysite/" class='linkstyle' />My Site</a>
     <a href="/myconfig/" class='linkstyle' />Configure My Site</a>
+    <a href="{% url flickrpayments_paypal_config %}" class='linkstyle' />Paypal Account</a>
 {% endif %}
 </div>
 <div id="user_page">
