@@ -87,6 +87,7 @@ def buy_done(request, object_id):
 
 
 @require_POST
+@csrf_exempt
 def ipn(request, item_check_callable=None):
     """
     PayPal IPN endpoint (notify_url).
@@ -96,6 +97,17 @@ def ipn(request, item_check_callable=None):
     PayPal IPN Simulator:
     https://developer.paypal.com/cgi-bin/devscr?cmd=_ipn-link-session
     """
+    import pdb
+    pdb.set_trace()
+    params = request.POST
+    invoice_id = params['invoice']
+    payer_email = params['payer_email']
+
+    payment_obj = Payment.objects.get(pk=int(invoice_id))
+    payment_obj.paypal_txn_key = params['txn_id']
+    payment_obj.is_active = True
+    payment_obj.save()
+
     # from the paypal invoice get
     # payment obj (inovice number == payment obj pk)
     # get the buyer email
