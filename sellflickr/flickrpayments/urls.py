@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.views.generic.simple import direct_to_template
 
 urlpatterns = patterns('flickrpayments.views',
     url(r'^set-price/$', 'set_price', name='flickrpayments_set_price'),
@@ -7,6 +8,10 @@ urlpatterns = patterns('flickrpayments.views',
     url('^buy/done/(?P<object_id>\d+)/$', 'buy_done', name='flickrpayments_buy_done'),
     url('^myconfig/$', 'my_config', name='admin_configure'),
     url('^mysite/$', 'my_site', name='my_site'),
+    url('^paypal/$', 'paypal_config', name='flickrpayments_paypal_config'),
+    url('^paypal/done/$', direct_to_template,
+        {'template': "flickrpayments/paypal_config_done.html"},
+        name='flickrpayments_paypal_config_done'),
     url('^$', 'photo_list', name='flickrpayments_photo_list'),
 )
 

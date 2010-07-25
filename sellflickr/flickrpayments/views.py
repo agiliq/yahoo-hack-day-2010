@@ -7,7 +7,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.views.generic.list_detail import object_detail, object_list
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 
 from paypal.standard.ipn.forms import PayPalIPNForm
@@ -18,6 +18,7 @@ from flickrimporter.models import FlickrPhoto
 from flickrpayments.models import Payment, UserPaypal
 from flickrpayments.forms import FlickrPaymentForm
 from django.views.generic.simple import direct_to_template
+from django.shortcuts import render_to_response
 
 def photo_list(request):
     if request.mainsite:
@@ -74,7 +75,8 @@ def photo_detail(request, object_id):
 
 @csrf_exempt
 def buy_done(request, object_id):
-    photo = get_object_or_404(FlickrPhoto, pk=object_id, owner__user=get_subdomain_user(request))
+    owner_user = get_subdomain_user(request)
+    photo = get_object_or_404(FlickrPhoto, pk=object_id, owner__user=owner_user)
     photos = FlickrPhoto.objects.filter(owner__user=get_subdomain_user(request))
     return render_to_response('flickrpayments/buy_done.html', 
                               {'photo': photo, 
@@ -158,6 +160,29 @@ def my_site(request):
 
 @login_required
 def my_config(request):
-    subdomain = request.user.flickruser_set.get().subdomain
+    owner = request.subdomain.user.flickruser_set.all()[0]
+    subdomain = owner.subdomain
     return redirect(subdomain.get_config_url())
+    
+    
+@login_required
+def paypal_config(request):
+    from flickrpayments.forms import PaypalConfigForm
+    try:
+        userpaypal = request.user.userpaypal_set.all()[0]
+        form = PaypalConfigForm(instance = userpaypal)
+    except InexError:
+        userpaypal = None
+        form = PaypalConfigForm()
+    if request.method == "POST":
+        form = PaypalConfigForm(data = request.POST, instance = userpaypal)
+        if form.is_valid():
+            paypal_config = form.save(commit = False)
+            paypal_config.user = request.user
+            paypal_config.save()
+            return HttpResponseRedirect(reverse("flickrpayments_paypal_config_done"))
+    payload = {"form": form}
+    return render_to_response("flickrpayments/paypal_config.html", payload, RequestContext(request))
+            
+        
     
