@@ -11,7 +11,11 @@
 <div id="base_container" >
 <div id="header">
 	  <a href="/">
+	  {% if user.is_authenticated %}
+	    <h3>{{user.username}}'s flickrcommerce</h3>
+	  {% else %}
 		<img src="{{MEDIA_URL}}images/logo.gif" width="332" height="38" alt="Flickr Commerce" />
+	  {% endif %}
 	  </a>
 
 {% if user.is_authenticated %}
