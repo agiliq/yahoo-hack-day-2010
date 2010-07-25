@@ -14,32 +14,7 @@ from django.conf import settings
 import urlparse
 
 from subdomains.models import Subdomain
-
-class GetSubdomainMiddleware:
     
-    def process_request(self, request):
-        hname = urlparse.urlparse(request.build_absolute_uri()).hostname
-        bits = hname.split('.')
-        if len(bits) == 3 and bits[2]=='flickrcommerce':
-            request.subdomain_text = bits[0]
-            try:
-                subdomain = Subdomain.objects.get(subdomain_text = request.subdomain_text)
-                request.mainsite = False
-                print subdomain
-            except Subdomain.DoesNotExist:
-                subdomain = None
-                request.mainsite = False
-                print 'Invalid Subdomain'
-            request.subdomain = subdomain
-        elif hname == settings.BASE_SITE:
-            subdomain = 'www'
-            request.mainsite = True
-            #print 'Ah, sizeof url is bigger than expected'
-        else:
-            #TODO
-            #Custom Url
-            pass
-            
 from django.http import HttpResponseRedirect
 
 class GetSubdomainMiddleware:
@@ -50,7 +25,7 @@ class GetSubdomainMiddleware:
         if len(bits) == 3 and ".".join(bits[1:])==settings.BASE_SITE:
             if bits[0] != 'www':
                 try:
-                    request.subdomain = Subdomain.objects.get(subdomain_text = bits[0])
+                    request.subdomain = Subdomain.objects.get(subdomain_text__iexact = bits[0])
                     request.mainsite = False
                     return
                 except Subdomain.DoesNotExist:
