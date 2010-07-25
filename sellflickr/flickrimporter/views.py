@@ -63,14 +63,16 @@ def flickr_login_start(request):
     url = flickr.web_login_url(perms='read')
     return HttpResponseRedirect(url)
 
-def flickr_login_done(request):
+def flickr_login_done(request):   
     log.info('We got a callback from Flickr, store the token')
     frob = request.GET['frob']
     token = flickr.get_token(frob)
     from django.contrib.auth import authenticate, login
     user = authenticate(flickr_token=token)
+    
     if user:
         login(request, user)
+        
         return HttpResponseRedirect(reverse("flickr_import"))
     else:
         #Not a valid user
@@ -112,7 +114,7 @@ def content(request):
         flickr_photo.small_url = ""
         flickr_photo.medium_url = ""
         flickr_photo.original_url = ""
-        flickr_photo.owner = request.user.flickruser_set.get()
+        flickr_photo.owner = request.user.flickruser_set.all()[0]
         flickr_photo.subdomain = flickr_photo.owner.subdomain
         flickr_photo.farm = photo['farm']
         flickr_photo.save()

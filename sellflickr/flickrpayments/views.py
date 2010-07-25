@@ -164,7 +164,8 @@ from django.shortcuts import redirect
 
 @login_required
 def my_site(request):
-    subdomain = request.user.flickruser_set.get().subdomain
+    owner = request.user.flickruser_set.all()[0]
+    subdomain = owner.subdomain
     return redirect(subdomain)
 
 @login_required
