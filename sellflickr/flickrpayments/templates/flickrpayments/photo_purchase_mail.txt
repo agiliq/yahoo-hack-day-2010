@@ -1,0 +1,8 @@
+
+Thank you for purchasing photo at flickrcommerce
+
+Link to download the orignal image is:
+
+{{ photo.original_url }}
+
+Thank you

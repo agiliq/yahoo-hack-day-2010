@@ -1,10 +1,12 @@
 
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelformset_factory
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.views.generic.list_detail import object_detail, object_list
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
@@ -97,8 +99,7 @@ def ipn(request, item_check_callable=None):
     PayPal IPN Simulator:
     https://developer.paypal.com/cgi-bin/devscr?cmd=_ipn-link-session
     """
-    import pdb
-    pdb.set_trace()
+    
     params = request.POST
     invoice_id = params['invoice']
     payer_email = params['payer_email']
@@ -108,6 +109,10 @@ def ipn(request, item_check_callable=None):
     payment_obj.is_active = True
     payment_obj.save()
 
+    photo = payment_obj.photo
+    
+    message = render_to_string('flickrpayments/photo_purchase_mail.txt', {'photo': photo})
+    send_mail('Photo purchase order', message, 'webmaster@flickrcommerce.com', [payer_email])
     # from the paypal invoice get
     # payment obj (inovice number == payment obj pk)
     # get the buyer email
