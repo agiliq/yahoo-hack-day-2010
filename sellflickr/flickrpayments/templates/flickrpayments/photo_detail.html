@@ -19,7 +19,7 @@
         {% if is_debug %}
             {{ form.sandbox }}
         {% else %}
-            {{ form }}
+            {{ form.render }}
         {% endif %}
     </div>
 {% else %}
