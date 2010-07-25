@@ -187,7 +187,7 @@ def paypal_config(request):
     try:
         userpaypal = request.user.userpaypal_set.all()[0]
         form = PaypalConfigForm(instance = userpaypal)
-    except InexError:
+    except IndexError:
         userpaypal = None
         form = PaypalConfigForm()
     if request.method == "POST":
