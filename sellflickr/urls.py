@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'', include('sitewide.urls')),
     (r'', include('flickrpayments.urls')),
     url(r'home/', direct_to_template,{'template':'homepage.html'},name='homepage'),
+    url(r'home/', direct_to_template,{'template':'homepage.html'},name='auth_logout'),
 )
 
 #For static and media files
