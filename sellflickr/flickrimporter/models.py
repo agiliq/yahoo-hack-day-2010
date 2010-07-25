@@ -11,7 +11,9 @@ class FlickrUser(models.Model):
     user = models.ForeignKey(User)
     token = models.CharField(max_length=100, unique=True)
     subdomain = models.ForeignKey(Subdomain)
-            
+    
+    def __unicode__(self):
+        return '%s %s' % (self.subdomain.subdomain_text, self.user)
     
 class FlickrPhoto(models.Model):
     flickr_id = models.CharField(max_length=15)
