@@ -23,7 +23,13 @@
         {% endif %}
     </div>
 {% else %}
-    <p>User does not provided paypal details</p>
+    {% if user.is_authenticated %}
+        {% ifequal request.user request.subdomain.user %}
+            <a href="{% url flickrpayments_paypal_config %}" class='linkstyle' /> Set your Paypal Account</a>
+        {% endifequal %}
+    {% else %}
+        <p>User does not provided paypal details</p>
+    {% endif %}
 {% endif %}
 
 
