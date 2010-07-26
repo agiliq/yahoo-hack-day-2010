@@ -20,5 +20,11 @@ def get_adaptive_payment_url(returnUrl, cancelUrl, receiverList, **kwargs):
     request = urllib2.Request(API_END_POINT, data = json.dumps(data), headers = headers)
     resp = json.loads(urllib2.urlopen(request).read())
     key = resp["payKey"]
-    return "https://www.sandbox.paypal.com/webscr?cmd=_ap-payment&paykey=%s"%key
+    API_ENDPOINT = ""
+    if settings.DEBUG:
+        API_ENDPOINT = "https://www.sandbox.paypal.com/webscr"
+    else:
+        API_ENDPOINT = "https://www.paypal.com/webscr"
+    return "%s?cmd=_ap-payment&paykey=%s"%(API_ENDPOINT,key)
+    
     
