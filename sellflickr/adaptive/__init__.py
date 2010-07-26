@@ -16,6 +16,7 @@ def get_adaptive_payment_url(returnUrl, cancelUrl, receiverList, **kwargs):
             "cancelUrl":cancelUrl,\
             "actionType":"PAY"
     }
+    data.update(**kwargs)
     import urllib, urllib2, json
     request = urllib2.Request(API_END_POINT, data = json.dumps(data), headers = headers)
     resp = json.loads(urllib2.urlopen(request).read())

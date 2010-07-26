@@ -224,8 +224,8 @@ def buy_photo_paypal(request, object_id):
 #         get_adaptive_payment_url(url, url, [{"email":"sales@agiliq.com", "amount":"10.00"}])
 
         url = get_adaptive_payment_url(return_url, cancel_url,
-                                       
-                                       [{"email":user_paypal.email, "amount": "%s.00"%photo.get_price}])
+                                       [{"email":user_paypal.email, "amount": "%s.00"%photo.get_price}],
+                                       ipnNotificationUrl = notify_url,) 
         return HttpResponseRedirect(url)
         
         
