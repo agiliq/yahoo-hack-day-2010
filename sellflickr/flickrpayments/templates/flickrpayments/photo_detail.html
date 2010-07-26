@@ -11,18 +11,15 @@
         <a href='{% url flickrpayments_photo_detail photo.id %}'>
             <img src='{{ photo.thumbnail_image }}'  class="image_listsmall" /> 
         </a>
-    {% endfor %}
+    {% endfor %}s
     
 </div>
 
 {% if has_paypal %}
     <div class="paypal">
         
-        {% if is_debug %}
             <a href="{% url flickrpayments_photo_buy_paypal object.pk %}">Buy via Paypal</a>
-        {% else %}
-            {{ form.render }}
-        {% endif %}
+            
     </div>
 {% else %}
     {% if user.is_authenticated %}
