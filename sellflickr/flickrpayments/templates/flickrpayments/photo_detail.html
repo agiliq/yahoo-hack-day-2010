@@ -17,8 +17,13 @@
 
 {% if has_paypal %}
     <div class="paypal">
-        
-            <a href="{% url flickrpayments_photo_buy_paypal object.pk %}">Buy via Paypal</a>
+            {# Until we get Our Paypal app approved. #}
+            {% if is_debug %}
+                <a href="{% url flickrpayments_photo_buy_paypal object.pk %}">Buy via Paypal</a>
+            {% else %}
+                {{ form.render }}
+            {% endif %}
+            
             
     </div>
 {% else %}
