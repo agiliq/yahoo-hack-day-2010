@@ -2,11 +2,10 @@ import flickrapi
 import simplejson
 
 from django.conf import settings
+from django.contrib.auth.models import User, Group
 from django.template.defaultfilters import slugify
 
-
 from flickrimporter.models import FlickrUser
-from django.contrib.auth.models import User, Group
 from subdomains.models import Subdomain
 
 class FlickrBackend(object):
