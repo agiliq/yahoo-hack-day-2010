@@ -2,6 +2,8 @@ import flickrapi
 import simplejson
 
 from django.conf import settings
+from django.template.defaultfilters import slugify
+
 
 from flickrimporter.models import FlickrUser
 from django.contrib.auth.models import User, Group
@@ -22,7 +24,13 @@ class FlickrBackend(object):
                 parsed_token_reponse = simplejson.loads(token_response[14:-1])
             except flickrapi.FlickrError:
                 return None
-            username = parsed_token_reponse['auth']['user']['username']
+            try:
+                username = parsed_token_reponse['auth']['user']['username']
+            except KeyError:
+                return None
+            username = slugify(username)
+            if User.objects.filter(username_istartswith = username).count():
+                username = "%s-%s" % (username, (User.objects.filter(username_istartswith = username).count() + 1))
             nsid = parsed_token_reponse['auth']['user']['nsid']
             user = User.objects.get_or_create(username = username)[0]
             user.is_staff = True
