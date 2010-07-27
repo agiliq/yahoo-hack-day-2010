@@ -1,0 +1,46 @@
+User goes to flickrcommerce.com
+
+1. Clicks on the login link.
+
+Is taken to flickr, where they login via FLickr, and authorize the flickr import.
+
+2. The full import happens for the first time.
+
+User is logged in. and his photos available.
+
+(We start a cron job to get all his photos is all sizes.)
+
+3. We create a user and a Subdomain for him, from his (slugified and uniquiefied) Flickr username.
+
+4. After import and photo creation he is redirected to his subdomain. (say agiliq.flickrcommerce.com).
+
+Actions available to logged in user
+
+1. Set his custom domain.
+2. Edit his subdomain.
+3. Set the Paypal ID.
+4. Choose which of his photos are available for sale.
+
+
+
+Action available to unlogged user.
+
+View photos.
+Browse photos.
+Buy photos
+
+Buying a photo flow.
+
+User sees a photo she want to buy.
+User completes the purchase.
+User is redirected to our site to show that she complted the purchase. We send a mail with download links.
+
+
+
+
+
+
+
+
+
+
